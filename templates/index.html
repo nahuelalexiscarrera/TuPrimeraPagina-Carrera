@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Panel de gestion</h1>
+<p class="seccion-descripcion">Administracion de contenidos del sitio.</p>
+
+<div class="inicio-contenido">
+    <p>Desde este panel se pueden gestionar los datos almacenados en la base de datos del proyecto.</p>
+    <p>Las secciones disponibles son:</p>
+    <ul class="inicio-items">
+        <li>Registrar autores con sus datos de contacto</li>
+        <li>Definir categorias para organizar las publicaciones</li>
+        <li>Redactar nuevos articulos asociados a un autor y una categoria</li>
+        <li>Buscar articulos existentes filtrando por titulo</li>
+    </ul>
+</div>
+{% endblock %}

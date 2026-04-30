@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Buscar articulos{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Buscar articulos</h1>
+<p class="seccion-descripcion">Ingresar un titulo o parte del mismo para filtrar los articulos almacenados.</p>
+
+<form method="GET" class="formulario">
+    {{ formulario.as_p }}
+    <input type="submit" value="Buscar" class="boton">
+</form>
+
+{% if resultados %}
+<p class="resultados-titulo">Resultados encontrados</p>
+{% for articulo in resultados %}
+<div class="resultado">
+    <h3>{{ articulo.titulo }}</h3>
+    <p>{{ articulo.contenido|truncatewords:30 }}</p>
+    <div class="meta">{{ articulo.autor }} · {{ articulo.categoria }} · {{ articulo.fecha_publicacion }}</div>
+</div>
+{% endfor %}
+{% elif request.GET.titulo %}
+<p class="sin-resultados">No se encontraron articulos con ese criterio.</p>
+{% endif %}
+
+{% endblock %}

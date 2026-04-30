@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Redactar articulo{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Redactar articulo</h1>
+<p class="seccion-descripcion">Completar los datos del nuevo articulo. Es necesario haber registrado al menos un autor y una categoria previamente.</p>
+
+{% if mensaje %}
+<div class="mensaje-exito">{{ mensaje }}</div>
+{% endif %}
+
+<form method="POST" class="formulario">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <input type="submit" value="Publicar" class="boton">
+</form>
+{% endblock %}

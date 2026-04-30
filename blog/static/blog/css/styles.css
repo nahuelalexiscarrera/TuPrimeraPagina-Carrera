@@ -1,0 +1,324 @@
+/* ============================================
+   Estilos generales - Paleta corporativa oscura
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --negro: #111111;
+    --gris-oscuro: #1a1a1a;
+    --gris-medio: #2a2a2a;
+    --gris-borde: #333333;
+    --gris-texto: #999999;
+    --gris-claro: #cccccc;
+    --blanco: #f0f0f0;
+    --blanco-puro: #ffffff;
+    --acento: #e0e0e0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--negro);
+    color: var(--blanco);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+}
+
+/* ============================================
+   Header y navegacion
+   ============================================ */
+
+header {
+    background-color: var(--gris-oscuro);
+    border-bottom: 1px solid var(--gris-borde);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.header-marca {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--blanco);
+}
+
+nav {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--gris-texto);
+    text-decoration: none;
+    font-size: 0.82rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+nav a:hover {
+    color: var(--blanco);
+    background-color: var(--gris-medio);
+}
+
+/* ============================================
+   Contenido principal
+   ============================================ */
+
+main {
+    flex: 1;
+    max-width: 720px;
+    width: 100%;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+}
+
+/* ============================================
+   Titulos de seccion
+   ============================================ */
+
+.seccion-titulo {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--blanco);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+}
+
+.seccion-descripcion {
+    font-size: 0.85rem;
+    color: var(--gris-texto);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* ============================================
+   Formularios
+   ============================================ */
+
+.formulario {
+    background-color: var(--gris-oscuro);
+    border: 1px solid var(--gris-borde);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.formulario p {
+    margin-bottom: 1.2rem;
+}
+
+label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gris-claro);
+    margin-bottom: 0.35rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background-color: var(--gris-medio);
+    border: 1px solid var(--gris-borde);
+    border-radius: 4px;
+    color: var(--blanco);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--gris-claro);
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+select {
+    cursor: pointer;
+}
+
+.boton {
+    display: inline-block;
+    background-color: var(--blanco);
+    color: var(--negro);
+    border: none;
+    padding: 0.55rem 1.6rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.boton:hover {
+    opacity: 0.85;
+}
+
+/* ============================================
+   Mensajes de confirmacion
+   ============================================ */
+
+.mensaje-exito {
+    background-color: var(--gris-medio);
+    color: var(--gris-claro);
+    padding: 0.7rem 1rem;
+    border-radius: 4px;
+    border-left: 3px solid var(--blanco);
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+}
+
+/* ============================================
+   Resultados de busqueda
+   ============================================ */
+
+.resultados-titulo {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gris-texto);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.resultado {
+    background-color: var(--gris-oscuro);
+    border: 1px solid var(--gris-borde);
+    border-radius: 6px;
+    padding: 1.2rem;
+    margin-bottom: 0.75rem;
+    transition: border-color 0.2s;
+}
+
+.resultado:hover {
+    border-color: var(--gris-claro);
+}
+
+.resultado h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--blanco);
+    margin-bottom: 0.3rem;
+}
+
+.resultado p {
+    font-size: 0.85rem;
+    color: var(--gris-texto);
+    margin-bottom: 0.15rem;
+}
+
+.resultado .meta {
+    font-size: 0.75rem;
+    color: var(--gris-borde);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--gris-borde);
+}
+
+.sin-resultados {
+    font-size: 0.85rem;
+    color: var(--gris-texto);
+    margin-top: 1.5rem;
+}
+
+/* ============================================
+   Pagina de inicio
+   ============================================ */
+
+.inicio-contenido {
+    margin-top: 1rem;
+}
+
+.inicio-contenido p {
+    font-size: 0.9rem;
+    color: var(--gris-claro);
+    margin-bottom: 0.6rem;
+    line-height: 1.7;
+}
+
+.inicio-items {
+    list-style: none;
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inicio-items li {
+    font-size: 0.85rem;
+    color: var(--gris-texto);
+    padding-left: 1rem;
+    position: relative;
+}
+
+.inicio-items li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--gris-borde);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+footer {
+    background-color: var(--gris-oscuro);
+    border-top: 1px solid var(--gris-borde);
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+}
+
+footer p {
+    font-size: 0.75rem;
+    color: var(--gris-texto);
+    letter-spacing: 0.05em;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 0.1rem;
+    }
+
+    main {
+        margin: 2rem auto;
+    }
+}

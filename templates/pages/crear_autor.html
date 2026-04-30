@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Registrar autor{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Registrar autor</h1>
+<p class="seccion-descripcion">Completar los campos para dar de alta un nuevo autor en el sistema.</p>
+
+{% if mensaje %}
+<div class="mensaje-exito">{{ mensaje }}</div>
+{% endif %}
+
+<form method="POST" class="formulario">
+    {% csrf_token %}
+    {{ formulario.as_p }}
+    <input type="submit" value="Guardar" class="boton">
+</form>
+{% endblock %}
