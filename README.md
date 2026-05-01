@@ -45,3 +45,30 @@ TuPrimeraPagina+Carrera/
 ├── .gitignore
 └── README.md
 ```
+
+## Como instalar y ejecutar
+Clonar el repositorio y entrar a la carpeta:
+## 1
+git clone <URL_DEL_REPOSITORIO>
+## 2
+cd TuPrimeraPagina+Carrera
+## 3
+Crear un entorno virtual y activarlo
+## 4
+Instalar las dependencias:
+## 5
+pip install -r requirements.txt
+## 6
+Aplicar las migraciones:
+python manage.py migrate
+## 7
+Ejecutar el servidor:
+python manage.py runserver
+## 8
+Abrir en el navegador: http://127.0.0.1:8000/
+Orden de prueba de funcionalidades
+Inicio (/) — Pagina principal con descripcion de las secciones disponibles.
+Autores (/crear-autor/) — Registrar al menos un autor antes de crear articulos.
+Categorias (/crear-categoria/) — Registrar al menos una categoria antes de crear articulos.
+Articulos (/crear-articulo/) — Completar titulo, contenido, seleccionar autor y categoria.
+Buscar (/buscar/) — Escribir un titulo o parte del mismo y presionar Buscar.
