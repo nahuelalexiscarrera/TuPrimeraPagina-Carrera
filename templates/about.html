@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block titulo %}About{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Acerca de mi</h1>
+<p class="seccion-descripcion">Conoce mas sobre el autor de este blog.</p>
+
+<div class="about-contenido">
+    <div class="about-card">
+        <div class="about-avatar">NC</div>
+        <div class="about-info">
+            <h2 class="about-nombre">Nahuel Carrera</h2>
+            <p class="about-rol">Estudiante de Desarrollo Web &mdash; CoderHouse</p>
+            <p class="about-bio">
+                Apasionado por la programacion y el desarrollo web. Actualmente cursando Python con Django en CoderHouse,
+                construyendo proyectos que combinan funcionalidad con buen diseno.
+            </p>
+            <p class="about-bio">
+                Este blog fue desarrollado como proyecto final del curso de Python, donde implementé autenticacion de usuarios,
+                gestion de contenidos, mensajeria y administracion de perfiles.
+            </p>
+            <div class="about-links">
+                <a href="{% url 'listado' %}" class="boton">Ver articulos</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

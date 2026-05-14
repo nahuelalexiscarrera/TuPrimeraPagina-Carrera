@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Ingresar{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Ingresar</h1>
+<p class="seccion-descripcion">Accede con tu usuario y contrasena.</p>
+
+<form method="POST" class="formulario">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="campo">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="campo-error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    {% if form.non_field_errors %}
+    <div class="campo-error" style="margin-bottom: 1rem;">{{ form.non_field_errors.0 }}</div>
+    {% endif %}
+    <div style="margin-top: 1.5rem;">
+        <input type="submit" value="Ingresar" class="boton">
+    </div>
+</form>
+<p class="form-pie">No tenes cuenta? <a href="{% url 'registro' %}">Registrarse</a></p>
+{% endblock %}

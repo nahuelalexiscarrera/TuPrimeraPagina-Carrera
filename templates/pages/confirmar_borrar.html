@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Eliminar articulo{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Eliminar articulo</h1>
+<p class="seccion-descripcion">Esta accion no se puede deshacer.</p>
+
+<div class="confirmar-card">
+    <p>Estas por eliminar el articulo: <strong>{{ articulo.titulo }}</strong></p>
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display:flex; gap: 0.75rem;">
+            <input type="submit" value="Confirmar eliminacion" class="boton boton-peligro">
+            <a href="{% url 'listado' %}" class="boton boton-outline">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,116 +1,87 @@
-from django.shortcuts import render, redirect
-from django import forms
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.contrib import messages
 
-from .models import Autor, Categoria, Articulo
-from .forms import AutorForm, CategoriaForm, ArticuloForm, BuscarArticuloForm
+from .models import Articulo, Autor, Categoria
+from .forms import ArticuloForm, BuscarArticuloForm
 
 
 def inicio(request):
-    """Vista principal - index."""
-    return render(request, 'index.html')
+    ultimos = Articulo.objects.all()[:3]
+    return render(request, 'index.html', {'ultimos': ultimos})
 
 
-# --- Vistas de carga ---
+def about(request):
+    return render(request, 'about.html')
 
-def crear_autor(request):
-    """Formulario para registrar un nuevo autor."""
+
+class ArticuloListView(ListView):
+    model = Articulo
+    template_name = 'pages/listado.html'
+    context_object_name = 'articulos'
+    paginate_by = 6
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(titulo__icontains=q)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        q = self.request.GET.get('q', '')
+        ctx['q'] = q
+        ctx['form'] = BuscarArticuloForm(initial={'q': q})
+        return ctx
+
+
+class ArticuloDetailView(DetailView):
+    model = Articulo
+    template_name = 'pages/detalle.html'
+    context_object_name = 'articulo'
+
+
+class ArticuloCreateView(LoginRequiredMixin, CreateView):
+    model = Articulo
+    form_class = ArticuloForm
+    template_name = 'pages/form_articulo.html'
+    success_url = reverse_lazy('listado')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['accion'] = 'Crear'
+        return ctx
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Articulo publicado correctamente.')
+        return super().form_valid(form)
+
+
+class ArticuloUpdateView(LoginRequiredMixin, UpdateView):
+    model = Articulo
+    form_class = ArticuloForm
+    template_name = 'pages/form_articulo.html'
+    success_url = reverse_lazy('listado')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['accion'] = 'Editar'
+        return ctx
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Articulo actualizado correctamente.')
+        return super().form_valid(form)
+
+
+@login_required
+def eliminar_articulo(request, pk):
+    articulo = get_object_or_404(Articulo, pk=pk)
     if request.method == 'POST':
-        formulario = AutorForm(request.POST)
-        if formulario.is_valid():
-            datos = formulario.cleaned_data
-            Autor.objects.create(
-                nombre=datos['nombre'],
-                apellido=datos['apellido'],
-                email=datos['email'],
-            )
-            return render(request, 'pages/crear_autor.html', {
-                'formulario': AutorForm(),
-                'mensaje': 'Autor registrado correctamente.',
-            })
-    else:
-        formulario = AutorForm()
-
-    return render(request, 'pages/crear_autor.html', {'formulario': formulario})
-
-
-def crear_categoria(request):
-    """Formulario para registrar una nueva categoria."""
-    if request.method == 'POST':
-        formulario = CategoriaForm(request.POST)
-        if formulario.is_valid():
-            datos = formulario.cleaned_data
-            Categoria.objects.create(nombre=datos['nombre'])
-            return render(request, 'pages/crear_categoria.html', {
-                'formulario': CategoriaForm(),
-                'mensaje': 'Categoria registrada correctamente.',
-            })
-    else:
-        formulario = CategoriaForm()
-
-    return render(request, 'pages/crear_categoria.html', {'formulario': formulario})
-
-
-def crear_articulo(request):
-    """Formulario para redactar un nuevo articulo."""
-    autores = Autor.objects.all()
-    categorias = Categoria.objects.all()
-
-    if request.method == 'POST':
-        formulario = ArticuloForm(request.POST)
-        formulario.fields['autor'].widget = forms.Select(
-            choices=[(a.id, str(a)) for a in autores]
-        )
-        formulario.fields['categoria'].widget = forms.Select(
-            choices=[(c.id, str(c)) for c in categorias]
-        )
-        if formulario.is_valid():
-            datos = formulario.cleaned_data
-            autor = Autor.objects.get(id=datos['autor'])
-            categoria = Categoria.objects.get(id=datos['categoria'])
-            Articulo.objects.create(
-                titulo=datos['titulo'],
-                contenido=datos['contenido'],
-                autor=autor,
-                categoria=categoria,
-            )
-            formulario_nuevo = ArticuloForm()
-            formulario_nuevo.fields['autor'].widget = forms.Select(
-                choices=[(a.id, str(a)) for a in autores]
-            )
-            formulario_nuevo.fields['categoria'].widget = forms.Select(
-                choices=[(c.id, str(c)) for c in categorias]
-            )
-            return render(request, 'pages/crear_articulo.html', {
-                'formulario': formulario_nuevo,
-                'mensaje': 'Articulo publicado correctamente.',
-            })
-    else:
-        formulario = ArticuloForm()
-        formulario.fields['autor'].widget = forms.Select(
-            choices=[(a.id, str(a)) for a in autores]
-        )
-        formulario.fields['categoria'].widget = forms.Select(
-            choices=[(c.id, str(c)) for c in categorias]
-        )
-
-    return render(request, 'pages/crear_articulo.html', {'formulario': formulario})
-
-
-# --- Vista de busqueda ---
-
-def buscar_articulos(request):
-    """Buscar articulos por titulo en la base de datos."""
-    formulario = BuscarArticuloForm()
-    resultados = []
-
-    if request.method == 'GET' and 'titulo' in request.GET:
-        formulario = BuscarArticuloForm(request.GET)
-        if formulario.is_valid():
-            titulo = formulario.cleaned_data['titulo']
-            if titulo:
-                resultados = Articulo.objects.filter(titulo__icontains=titulo)
-
-    return render(request, 'pages/buscar_articulos.html', {
-        'formulario': formulario,
-        'resultados': resultados,
-    })
+        articulo.delete()
+        messages.success(request, 'Articulo eliminado.')
+        return redirect('listado')
+    return render(request, 'pages/confirmar_borrar.html', {'articulo': articulo})

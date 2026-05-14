@@ -4,15 +4,13 @@
 
 {% block contenido %}
 <h1 class="seccion-titulo">Registrar categoria</h1>
-<p class="seccion-descripcion">Definir una nueva categoria para clasificar los articulos.</p>
+<p class="seccion-descripcion">Gestiona las categorias desde el panel de administracion.</p>
 
-{% if mensaje %}
-<div class="mensaje-exito">{{ mensaje }}</div>
-{% endif %}
-
-<form method="POST" class="formulario">
-    {% csrf_token %}
-    {{ formulario.as_p }}
-    <input type="submit" value="Guardar" class="boton">
-</form>
+<div class="confirmar-card" style="border-color: var(--gris-borde);">
+    <p>La gestion de categorias se realiza desde el panel de administracion de Django.</p>
+    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+        <a href="/admin/blog/categoria/" class="boton" target="_blank">Ir al admin</a>
+        <a href="{% url 'inicio' %}" class="boton boton-outline">Volver al inicio</a>
+    </div>
+</div>
 {% endblock %}

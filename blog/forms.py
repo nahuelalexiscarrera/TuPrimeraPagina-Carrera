@@ -1,26 +1,20 @@
 from django import forms
+from ckeditor.widgets import CKEditorWidget
+from .models import Articulo, Autor, Categoria
 
 
-class AutorForm(forms.Form):
-    """Formulario para crear un nuevo Autor."""
-    nombre = forms.CharField(max_length=50)
-    apellido = forms.CharField(max_length=50)
-    email = forms.EmailField()
+class ArticuloForm(forms.ModelForm):
+    contenido = forms.CharField(widget=CKEditorWidget())
 
-
-class CategoriaForm(forms.Form):
-    """Formulario para crear una nueva Categoria."""
-    nombre = forms.CharField(max_length=50)
-
-
-class ArticuloForm(forms.Form):
-    """Formulario para crear un nuevo Articulo."""
-    titulo = forms.CharField(max_length=200)
-    contenido = forms.CharField(widget=forms.Textarea)
-    autor = forms.IntegerField(widget=forms.Select)
-    categoria = forms.IntegerField(widget=forms.Select)
+    class Meta:
+        model = Articulo
+        fields = ('titulo', 'subtitulo', 'contenido', 'imagen', 'autor', 'categoria')
 
 
 class BuscarArticuloForm(forms.Form):
-    """Formulario para buscar articulos en la base de datos."""
-    titulo = forms.CharField(max_length=200, required=False)
+    q = forms.CharField(
+        max_length=200,
+        required=False,
+        label='',
+        widget=forms.TextInput(attrs={'placeholder': 'Buscar articulos...'})
+    )

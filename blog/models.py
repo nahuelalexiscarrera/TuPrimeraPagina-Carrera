@@ -1,8 +1,8 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 class Autor(models.Model):
-    """Modelo que representa a un autor de articulos del blog."""
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
     email = models.EmailField()
@@ -15,7 +15,6 @@ class Autor(models.Model):
 
 
 class Categoria(models.Model):
-    """Modelo que representa una categoria para clasificar articulos."""
     nombre = models.CharField(max_length=50)
 
     class Meta:
@@ -26,12 +25,17 @@ class Categoria(models.Model):
 
 
 class Articulo(models.Model):
-    """Modelo que representa un articulo/post del blog."""
     titulo = models.CharField(max_length=200)
-    contenido = models.TextField()
+    subtitulo = models.CharField(max_length=300, blank=True)
+    contenido = RichTextField()
+    imagen = models.ImageField(upload_to='articulos/', blank=True, null=True)
     autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     fecha_publicacion = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "articulos"
+        ordering = ['-fecha_publicacion']
 
     def __str__(self):
         return self.titulo

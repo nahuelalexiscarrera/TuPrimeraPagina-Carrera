@@ -3,17 +3,33 @@
 {% block titulo %}Inicio{% endblock %}
 
 {% block contenido %}
-<h1 class="seccion-titulo">Panel de gestion</h1>
-<p class="seccion-descripcion">Administracion de contenidos del sitio.</p>
+<h1 class="seccion-titulo">Blog de Nahuel Carrera</h1>
+<p class="seccion-descripcion">Publicaciones sobre programacion, tecnologia y desarrollo web.</p>
 
+{% if ultimos %}
 <div class="inicio-contenido">
-    <p>Desde este panel se pueden gestionar los datos almacenados en la base de datos del proyecto.</p>
-    <p>Las secciones disponibles son:</p>
-    <ul class="inicio-items">
-        <li>Registrar autores con sus datos de contacto</li>
-        <li>Definir categorias para organizar las publicaciones</li>
-        <li>Redactar nuevos articulos asociados a un autor y una categoria</li>
-        <li>Buscar articulos existentes filtrando por titulo</li>
-    </ul>
+    <p class="resultados-titulo">Ultimas publicaciones</p>
+    <div class="cards-grid">
+        {% for art in ultimos %}
+        <div class="card">
+            {% if art.imagen %}
+            <img src="{{ art.imagen.url }}" alt="{{ art.titulo }}" class="card-img">
+            {% endif %}
+            <div class="card-body">
+                <h3 class="card-titulo">{{ art.titulo }}</h3>
+                {% if art.subtitulo %}<p class="card-subtitulo">{{ art.subtitulo }}</p>{% endif %}
+                <p class="card-meta">{{ art.categoria }} &mdash; {{ art.fecha_publicacion }}</p>
+                <a href="{% url 'detalle' art.pk %}" class="boton boton-sm">Leer mas</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'listado' %}" class="boton">Ver todos los articulos</a>
+    </div>
 </div>
+{% else %}
+<p class="sin-resultados">No hay articulos publicados aun.</p>
+<a href="{% url 'crear_articulo' %}" class="boton" style="margin-top:1rem;display:inline-block;">Publicar el primero</a>
+{% endif %}
 {% endblock %}

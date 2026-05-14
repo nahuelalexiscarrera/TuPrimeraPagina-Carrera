@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ articulo.titulo }}{% endblock %}
+
+{% block contenido %}
+<div class="detalle-header">
+    <p class="detalle-meta">{{ articulo.categoria }} &mdash; {{ articulo.fecha_publicacion }} &mdash; {{ articulo.autor }}</p>
+    <h1 class="seccion-titulo">{{ articulo.titulo }}</h1>
+    {% if articulo.subtitulo %}<p class="seccion-descripcion">{{ articulo.subtitulo }}</p>{% endif %}
+</div>
+
+{% if articulo.imagen %}
+<div class="detalle-imagen">
+    <img src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
+</div>
+{% endif %}
+
+<div class="detalle-contenido">
+    {{ articulo.contenido|safe }}
+</div>
+
+<div class="detalle-acciones">
+    <a href="{% url 'listado' %}" class="boton boton-outline">&larr; Volver</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'editar_articulo' articulo.pk %}" class="boton">Editar</a>
+    <a href="{% url 'eliminar_articulo' articulo.pk %}" class="boton boton-peligro">Eliminar</a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Articulos{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Articulos</h1>
+<p class="seccion-descripcion">Todas las publicaciones del blog.</p>
+
+<form method="GET" class="busqueda-form">
+    <input type="text" name="q" value="{{ q }}" placeholder="Buscar articulos...">
+    <button type="submit" class="boton boton-sm">Buscar</button>
+    {% if q %}<a href="{% url 'listado' %}" class="link-limpiar">Limpiar</a>{% endif %}
+</form>
+
+{% if user.is_authenticated %}
+<div style="margin-bottom: 1.5rem;">
+    <a href="{% url 'crear_articulo' %}" class="boton">+ Nuevo articulo</a>
+</div>
+{% endif %}
+
+{% if articulos %}
+<div class="cards-grid">
+    {% for art in articulos %}
+    <div class="card">
+        {% if art.imagen %}
+        <img src="{{ art.imagen.url }}" alt="{{ art.titulo }}" class="card-img">
+        {% endif %}
+        <div class="card-body">
+            <h3 class="card-titulo">{{ art.titulo }}</h3>
+            {% if art.subtitulo %}<p class="card-subtitulo">{{ art.subtitulo }}</p>{% endif %}
+            <p class="card-meta">{{ art.categoria }} &mdash; {{ art.fecha_publicacion }}</p>
+            <div class="card-acciones">
+                <a href="{% url 'detalle' art.pk %}" class="boton boton-sm">Leer mas</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'editar_articulo' art.pk %}" class="boton boton-sm boton-outline">Editar</a>
+                <a href="{% url 'eliminar_articulo' art.pk %}" class="boton boton-sm boton-peligro">Borrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div class="paginacion">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" class="boton boton-sm">&laquo;</a>
+    {% endif %}
+    <span class="paginacion-info">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}" class="boton boton-sm">&raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<p class="sin-resultados">
+    {% if q %}No se encontraron articulos para "{{ q }}".{% else %}No hay articulos aun.{% endif %}
+</p>
+{% endif %}
+{% endblock %}

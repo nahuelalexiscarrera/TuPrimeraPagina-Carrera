@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Conversacion con {{ otro.username }}{% endblock %}
+
+{% block contenido %}
+<div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+    <a href="{% url 'bandeja' %}" class="boton boton-sm boton-outline">&larr;</a>
+    <h1 class="seccion-titulo" style="margin: 0;">{{ otro.username }}</h1>
+</div>
+<p class="seccion-descripcion">Conversacion privada.</p>
+
+<div class="chat-hilo">
+    {% for msg in mensajes %}
+    <div class="chat-burbuja {% if msg.remitente == request.user %}chat-propio{% else %}chat-otro{% endif %}">
+        <p class="chat-texto">{{ msg.contenido }}</p>
+        <span class="chat-fecha">{{ msg.fecha|date:"d/m H:i" }}</span>
+    </div>
+    {% empty %}
+    <p class="sin-resultados">Aun no hay mensajes en esta conversacion.</p>
+    {% endfor %}
+</div>
+
+<form method="POST" class="chat-form">
+    {% csrf_token %}
+    {{ form.contenido }}
+    <button type="submit" class="boton">Enviar</button>
+</form>
+{% endblock %}

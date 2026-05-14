@@ -4,15 +4,13 @@
 
 {% block contenido %}
 <h1 class="seccion-titulo">Registrar autor</h1>
-<p class="seccion-descripcion">Completar los campos para dar de alta un nuevo autor en el sistema.</p>
+<p class="seccion-descripcion">Gestiona los autores desde el panel de administracion.</p>
 
-{% if mensaje %}
-<div class="mensaje-exito">{{ mensaje }}</div>
-{% endif %}
-
-<form method="POST" class="formulario">
-    {% csrf_token %}
-    {{ formulario.as_p }}
-    <input type="submit" value="Guardar" class="boton">
-</form>
+<div class="confirmar-card" style="border-color: var(--gris-borde);">
+    <p>La gestion de autores se realiza desde el panel de administracion de Django.</p>
+    <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+        <a href="/admin/blog/autor/" class="boton" target="_blank">Ir al admin</a>
+        <a href="{% url 'inicio' %}" class="boton boton-outline">Volver al inicio</a>
+    </div>
+</div>
 {% endblock %}

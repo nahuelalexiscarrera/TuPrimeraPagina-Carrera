@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Mi perfil{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Mi perfil</h1>
+<p class="seccion-descripcion">Informacion de tu cuenta.</p>
+
+<div class="perfil-card">
+    <div class="perfil-avatar-wrap">
+        {% if perfil.avatar %}
+        <img src="{{ perfil.avatar.url }}" alt="Avatar" class="perfil-avatar">
+        {% else %}
+        <div class="perfil-avatar-placeholder">{{ user.username|first|upper }}</div>
+        {% endif %}
+    </div>
+    <div class="perfil-datos">
+        <h2 class="perfil-nombre">
+            {% if user.first_name or user.last_name %}
+                {{ user.first_name }} {{ user.last_name }}
+            {% else %}
+                {{ user.username }}
+            {% endif %}
+        </h2>
+        <p class="perfil-username">@{{ user.username }}</p>
+        <p class="perfil-email">{{ user.email }}</p>
+        {% if perfil.fecha_nacimiento %}
+        <p class="perfil-dato">Nacimiento: {{ perfil.fecha_nacimiento }}</p>
+        {% endif %}
+        {% if perfil.biografia %}
+        <p class="perfil-bio">{{ perfil.biografia }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+    <a href="{% url 'editar_perfil' %}" class="boton">Editar perfil</a>
+    <a href="{% url 'cambiar_password' %}" class="boton boton-outline">Cambiar contrasena</a>
+    <a href="{% url 'bandeja' %}" class="boton boton-outline">Mis mensajes</a>
+</div>
+{% endblock %}

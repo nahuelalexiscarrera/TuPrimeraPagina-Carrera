@@ -4,24 +4,7 @@
 
 {% block contenido %}
 <h1 class="seccion-titulo">Buscar articulos</h1>
-<p class="seccion-descripcion">Ingresar un titulo o parte del mismo para filtrar los articulos almacenados.</p>
+<p class="seccion-descripcion">Filtra publicaciones por titulo.</p>
 
-<form method="GET" class="formulario">
-    {{ formulario.as_p }}
-    <input type="submit" value="Buscar" class="boton">
-</form>
-
-{% if resultados %}
-<p class="resultados-titulo">Resultados encontrados</p>
-{% for articulo in resultados %}
-<div class="resultado">
-    <h3>{{ articulo.titulo }}</h3>
-    <p>{{ articulo.contenido|truncatewords:30 }}</p>
-    <div class="meta">{{ articulo.autor }} · {{ articulo.categoria }} · {{ articulo.fecha_publicacion }}</div>
-</div>
-{% endfor %}
-{% elif request.GET.titulo %}
-<p class="sin-resultados">No se encontraron articulos con ese criterio.</p>
-{% endif %}
-
+<p class="sin-resultados">La busqueda esta integrada directamente en <a href="{% url 'listado' %}">el listado de articulos</a>.</p>
 {% endblock %}

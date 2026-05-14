@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Editar perfil{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Editar perfil</h1>
+<p class="seccion-descripcion">Actualiza tus datos personales.</p>
+
+<form method="POST" enctype="multipart/form-data" class="formulario">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="campo">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}<span class="campo-error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    <div style="margin-top: 1.5rem;">
+        <input type="submit" value="Guardar cambios" class="boton">
+        <a href="{% url 'perfil' %}" class="boton boton-outline" style="margin-left: 0.75rem;">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

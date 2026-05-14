@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Mensajes{% endblock %}
+
+{% block contenido %}
+<h1 class="seccion-titulo">Mensajes</h1>
+<p class="seccion-descripcion">Tus conversaciones.</p>
+
+<div style="margin-bottom: 1.5rem;">
+    <a href="{% url 'nuevo_mensaje' %}" class="boton boton-sm">+ Nuevo mensaje</a>
+</div>
+
+{% if contactos %}
+<div class="mensajes-lista">
+    {% for contacto in contactos %}
+    <a href="{% url 'conversacion' contacto.pk %}" class="mensaje-item">
+        <div class="mensaje-avatar">{{ contacto.username|first|upper }}</div>
+        <div class="mensaje-info">
+            <span class="mensaje-nombre">{{ contacto.username }}</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+<p class="sin-resultados">No tenes conversaciones aun. <a href="{% url 'nuevo_mensaje' %}">Enviar el primero.</a></p>
+{% endif %}
+{% endblock %}
